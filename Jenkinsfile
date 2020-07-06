@@ -1,7 +1,8 @@
 pipeline {
     agent any
     environment {
-                DOCKER_IMAGE_NAME = "adamxhuxi/train-schedule"
+        //be sure to replace "willbla" with your own Docker Hub username
+        DOCKER_IMAGE_NAME = "adamxhuxi/train-schedule"
     }
     stages {
         stage('Build') {
@@ -44,12 +45,11 @@ pipeline {
             steps {
                 input 'Deploy to Production?'
                 milestone(1)
-                kubernetesDeploy{
+                kubernetesDeploy(
                     kubeconfigId: 'kubeconfig',
-                    configs: 'train-schedule-kube.yml',
+                    configs: 'kube-config.yml',
                     enableConfigSubstitution: true
-                //implement Kubernetes deployment here
-                }     
+                )
             }
         }
     }
